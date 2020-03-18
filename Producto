@@ -1,0 +1,123 @@
+
+public class Producto
+{
+    
+    private String nombre;
+    private Integer tipo;//Tipo 1 Papeleria ,Tipo 2 Drogueria, Tipo 3 Supermercado
+    private double valorUnitario;
+    private int cantidadBodega;
+    private int cantidadMinima;
+    private int cantidadUnidadesVendidas;
+    
+    private final static double IVA_PAPELERIA = 0.16;
+    private final static double IVA_SUPERMERCADO = 0.04;
+    private final static double IVA_DROGUERIA = 0.12;
+
+
+    public Producto(String nombre, Integer tipo, double valorUnitario, int cantidadBodega, int cantidadMinima)
+    {
+        this.nombre= nombre;
+        this.tipo= tipo;
+        this.valorUnitario= valorUnitario;
+        this.cantidadBodega= cantidadBodega;
+        this.cantidadMinima= cantidadMinima;
+        this.cantidadUnidadesVendidas = 0;
+    }
+
+    public String darNombre( )
+    {
+        return nombre;
+    }
+
+    public Integer darTipo( )
+    {
+        return tipo;
+    }
+
+    public double darValorUnitario( )
+    {
+        return valorUnitario;
+    }
+
+    public int darCantidadBodega( )
+    {
+        return cantidadBodega;
+    }
+
+    public int darCantidadMinima( )
+    {
+        return cantidadMinima;
+    }
+
+    public int darCantidadUnidadesVendidas( )
+    {
+        return cantidadUnidadesVendidas;
+    }
+
+    public double calcularPrecioFinal( )
+    {
+
+        return valorUnitario + valorUnitario * darIVA( );
+    }
+
+    public double darIVA( )
+    {
+        double iva = 0;
+        switch( tipo )
+        {
+            case 1:
+            {
+                iva = IVA_PAPELERIA;
+                break;
+            }
+            case 2:
+            {
+                iva =IVA_DROGUERIA;
+                break;
+            }
+            case 3:
+            {
+                iva =IVA_SUPERMERCADO;
+                break;
+            }
+
+        }
+
+        return iva;
+    }
+
+    public int vender( int pCantidad )
+    {
+        int cantidadVendida = 0;
+
+        if( pCantidad > cantidadBodega )
+        {
+            cantidadVendida = cantidadBodega;
+            cantidadBodega = 0;
+        }
+        else
+        {
+            cantidadBodega -= pCantidad;
+            cantidadVendida = pCantidad;
+        }
+
+        cantidadUnidadesVendidas += cantidadVendida;
+
+        return cantidadVendida;
+    }
+
+    public void abastecer( int pCantidad )
+    {
+        cantidadBodega += pCantidad;
+    }
+
+    public boolean puedeAbastecer( )
+    {
+        boolean respuesta = false;
+        if( cantidadBodega < cantidadMinima )
+        {
+            respuesta = true;
+        }
+        return respuesta;
+    }
+}
